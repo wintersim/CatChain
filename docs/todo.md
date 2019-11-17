@@ -18,3 +18,5 @@
 * Maybe we let the users 'mine' themselves 
     * The miner-software shows transactions i.e. pictures and the user has to decide whether the picture is worth to be stored permanently in the blockchain
     
+* When a new block is available to be mined miners have 60 seconds to decide
+    * Scalability?
