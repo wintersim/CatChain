@@ -1,4 +1,4 @@
-# CatChain
+# CatChain- W.I.P.
 
 #### A simple Blockchain approach for storing pictures of cats
 
@@ -17,3 +17,9 @@
 ## Possible issues when making this software public
 
 * People sending pictures that clearly show no cats on it (**cough** Pedos **cough**)
+
+## Why cats
+
+I just want to make my own blockchain for learning purposes. Storing pictures of cats is the first thing that came to my mind :)
+
+![picture of a cat](https://catgasm.cc/cgi-bin/catCgi?type=cat "Random Cat")
