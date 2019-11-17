@@ -22,4 +22,4 @@
 
 I just want to make my own blockchain for learning purposes. Storing pictures of cats is the first thing that came to my mind :)
 
-![picture of a cat](https://catgasm.cc/cgi-bin/catCgi?type=cat "Random Cat")
+![random picture of a cat](https://catgasm.cc/cgi-bin/catCgi?type=cat "Random Cat")
