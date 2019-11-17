@@ -1,6 +1,7 @@
 package cc.catgasm.chain;
 
 import cc.catgasm.util.Hash;
+import cc.catgasm.util.MathUtil;
 import cc.catgasm.util.Pair;
 
 import java.nio.charset.StandardCharsets;
@@ -32,8 +33,8 @@ public class Block {
         this(prv, data.getBytes(StandardCharsets.UTF_8));
     }
 
-    public Block( byte[] prevHash, byte[] data) { //Only used for genesis block
-        this.prevHash = prevHash;
+    public Block(byte[] data) { //Only used for genesis block
+        this.prevHash = new byte[64];
         this.data = data;
         this.timestamp = new Date().getTime();
         this.nr = current_block++;
@@ -45,22 +46,14 @@ public class Block {
     //TODO: Probably very inefficient
     public static Pair<byte[], Long> mine(Block block) {
         long nonce = -1;
-        int leadingZerosFound = 0;
+        int leadingZerosFound;
         byte[] hash;
 
         do {
             ++nonce;
             leadingZerosFound = 0;
 
-            hash = new Hash(block.getData(), block.getPrevHash(), new byte[]{ //OK lol TODO
-                    (byte) nonce,
-                    (byte) (nonce >> 8),
-                    (byte) (nonce >> 16),
-                    (byte) (nonce >> 24),
-                    (byte) (nonce >> 32),
-                    (byte) (nonce >> 40),
-                    (byte) (nonce >> 48),
-                    (byte) (nonce >> 56)}).getBytes();
+            hash = new Hash(block.getData(), block.getPrevHash(), MathUtil.longToByteArray(nonce)).getBytes();
 
             //Check leading zeros
             for (int i = 0; i < difficulty; i++) {

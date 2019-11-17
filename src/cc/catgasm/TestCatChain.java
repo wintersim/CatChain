@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 public class TestCatChain {
     public static void main(String[] args) {
         Config config = Config.getInstace();
-        Block genesis = new Block(new byte[64], "Catchain!".getBytes(StandardCharsets.UTF_8));
+        Block genesis = new Block("Catchain!".getBytes(StandardCharsets.UTF_8));
 
         Blockchain bc = new Blockchain(genesis);
         bc.addBlock("Test");
