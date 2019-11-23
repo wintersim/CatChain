@@ -5,7 +5,6 @@ import cc.catgasm.util.MathUtil;
 import cc.catgasm.util.Pair;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Date;
 
 public class Block {
@@ -63,6 +62,10 @@ public class Block {
             }
         } while (leadingZerosFound != difficulty);
         return new Pair<>(hash, nonce);
+    }
+
+    public static byte[] hash(Block block) {
+        return new Hash(block.getData(), block.getPrevHash(), MathUtil.longToByteArray(block.getNonce())).getBytes();
     }
 
     public byte[] getHash() {
