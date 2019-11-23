@@ -27,11 +27,11 @@ public class Blockchain {
         for (Block block : blocks) {
             if(!Arrays.equals(lastHash, block.getPrevHash())) { //TODO better "if"
                 System.out.println("Block #" + block.getNr() + " is not valid. Block hash: " + Hash.hashToString(block.getHash()));
-                break;
+                return;
             }
-            if(!Arrays.equals(Block.mine(block).getFirst(), block.getHash())) {
+            if(!Arrays.equals(Block.hash(block), block.getHash())) {
                 System.out.println("Block #" + block.getNr() + " is not valid. Block hash: " + Hash.hashToString(block.getHash()));
-                break;
+                return;
             }
             lastHash = block.getHash();
         }
