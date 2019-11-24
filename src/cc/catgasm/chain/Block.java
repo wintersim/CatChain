@@ -15,17 +15,21 @@ public class Block {
     private long nr;
     private long nonce;
 
+    public static final int MAX_BLOCKSIZE = 1024 * 1024 * 4; //4 MiB
+
     private static long current_block = 0;
-    private static long difficulty = 2; //Number represents leading zero-bytes in hash
+    private static long difficulty = 1; //Number represents leading zero-bytes in hash
 
     public Block(Block prv, byte[] data) {
-        this.prevHash = prv.getHash();
-        this.data = data;
-        this.timestamp = new Date().getTime();
-        this.nr = current_block++;
-        Pair<byte[], Long> pair = mine(this);
-        hash = pair.getFirst();
-        nonce = pair.getSecond();
+        if(data.length < MAX_BLOCKSIZE) {
+            this.prevHash = prv.getHash();
+            this.data = data;
+            this.timestamp = new Date().getTime();
+            this.nr = current_block++;
+            Pair<byte[], Long> pair = mine(this);
+            hash = pair.getFirst();
+            nonce = pair.getSecond();
+        }
     }
 
     public Block(Block prv, String data) {
@@ -33,13 +37,15 @@ public class Block {
     }
 
     public Block(byte[] data) { //Only used for genesis block
-        this.prevHash = new byte[64];
-        this.data = data;
-        this.timestamp = new Date().getTime();
-        this.nr = current_block++;
-        Pair<byte[], Long> pair = mine(this);
-        hash = pair.getFirst();
-        nonce = pair.getSecond();
+        if(data.length < MAX_BLOCKSIZE) {
+            this.prevHash = new byte[64];
+            this.data = data;
+            this.timestamp = new Date().getTime();
+            this.nr = current_block++;
+            Pair<byte[], Long> pair = mine(this);
+            hash = pair.getFirst();
+            nonce = pair.getSecond();
+        }
     }
 
     //TODO: Probably very inefficient

@@ -2,6 +2,7 @@ package cc.catgasm.chain;
 
 import cc.catgasm.util.Hash;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,11 @@ public class Blockchain {
             sb.append("\tPrevious Hash:\t").append(Hash.hashToString(block.getPrevHash())).append("\n");
             sb.append("\tNonce:\t\t\t").append(block.getNonce()).append("\n");
             sb.append("\tTimestamp:\t\t").append(block.getTimestamp()).append("\n");
-            sb.append("\tData:\t\t\t").append(new String(block.getData())).append("\n\n");
+            try {
+                sb.append("\tData:\t\t\t").append(new Image(block.getData()).getFilename()).append("\n\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         System.out.println(sb);
     }
