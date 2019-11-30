@@ -1,5 +1,7 @@
 package cc.catgasm.chain;
 
+import cc.catgasm.core.exception.ErrorCode;
+import cc.catgasm.core.exception.CatChainException;
 import cc.catgasm.util.Hash;
 import cc.catgasm.util.MathUtil;
 import cc.catgasm.util.Pair;
@@ -20,32 +22,40 @@ public class Block {
     private static long current_block = 0;
     private static long difficulty = 1; //Number represents leading zero-bytes in hash
 
-    public Block(Block prv, byte[] data) {
-        if(data.length < MAX_BLOCKSIZE) {
-            this.prevHash = prv.getHash();
-            this.data = data;
-            this.timestamp = new Date().getTime();
-            this.nr = current_block++;
-            Pair<byte[], Long> pair = mine(this);
-            hash = pair.getFirst();
-            nonce = pair.getSecond();
+    public Block(Block prv, byte[] data) throws CatChainException {
+        if (data.length == 0) {
+            throw new CatChainException(ErrorCode.BLOCK_DATA_EMPTY);
+        } else if (data.length > MAX_BLOCKSIZE) {
+            throw new CatChainException(ErrorCode.BLOCK_DATA_TOO_LONG);
         }
+
+        this.prevHash = prv.getHash();
+        this.data = data;
+        this.timestamp = new Date().getTime();
+        this.nr = current_block++;
+        Pair<byte[], Long> pair = mine(this);
+        hash = pair.getFirst();
+        nonce = pair.getSecond();
     }
 
-    public Block(Block prv, String data) {
+    public Block(Block prv, String data) throws CatChainException {
         this(prv, data.getBytes(StandardCharsets.UTF_8));
     }
 
-    public Block(byte[] data) { //Only used for genesis block
-        if(data.length < MAX_BLOCKSIZE) {
-            this.prevHash = new byte[64];
-            this.data = data;
-            this.timestamp = new Date().getTime();
-            this.nr = current_block++;
-            Pair<byte[], Long> pair = mine(this);
-            hash = pair.getFirst();
-            nonce = pair.getSecond();
+    public Block(byte[] data) throws CatChainException { //Only used for genesis block
+        if (data.length == 0) {
+            throw new CatChainException(ErrorCode.BLOCK_DATA_EMPTY);
+        } else if (data.length > MAX_BLOCKSIZE) {
+            throw new CatChainException(ErrorCode.BLOCK_DATA_TOO_LONG);
         }
+
+        this.prevHash = new byte[64];
+        this.data = data;
+        this.timestamp = new Date().getTime();
+        this.nr = current_block++;
+        Pair<byte[], Long> pair = mine(this);
+        hash = pair.getFirst();
+        nonce = pair.getSecond();
     }
 
     //TODO: Probably very inefficient
@@ -62,7 +72,7 @@ public class Block {
 
             //Check leading zeros
             for (int i = 0; i < difficulty; i++) {
-                if(hash[i] == 0) {
+                if (hash[i] == 0) {
                     ++leadingZerosFound;
                 }
             }
@@ -110,7 +120,7 @@ public class Block {
                 '}';
     }
 
-    public void setData(String nope) {
+    public void setData(String nope) { //Only for testing
         data = nope.getBytes(StandardCharsets.UTF_8);
     }
 }

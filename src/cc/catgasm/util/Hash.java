@@ -37,6 +37,10 @@ public class Hash {
     }
 
     private byte[] hash(byte[] input) {
+        if(input == null) {
+            throw new NullPointerException("Input cannot be null");
+        }
+
         byte[] hashed = null;
 
         try {

@@ -1,5 +1,7 @@
 package cc.catgasm.chain;
 
+import cc.catgasm.core.Image;
+import cc.catgasm.core.exception.CatChainException;
 import cc.catgasm.util.Hash;
 
 import java.io.IOException;
@@ -15,11 +17,11 @@ public class Blockchain {
         blocks.add(genesis);
     }
 
-    public void addBlock(String data) {
+    public void addBlock(String data) throws CatChainException {
         blocks.add(new Block(blocks.get(blocks.size()-1), data));
     }
 
-    public void addBlock(byte[] data) {
+    public void addBlock(byte[] data) throws CatChainException {
         blocks.add(new Block(blocks.get(blocks.size()-1), data));
     }
 
@@ -54,8 +56,9 @@ public class Blockchain {
             sb.append("\tTimestamp:\t\t").append(block.getTimestamp()).append("\n");
             try {
                 sb.append("\tData:\t\t\t").append(new Image(block.getData()).getFilename()).append("\n\n");
-            } catch (IOException e) {
+            } catch (CatChainException e) {
                 e.printStackTrace();
+
             }
         }
         System.out.println(sb);
