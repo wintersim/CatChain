@@ -1,4 +1,4 @@
-# CatChain - W.I.P.
+# CatChain - Abandoned
 
 #### A simple Blockchain approach for storing pictures of cats
 
